@@ -1,0 +1,59 @@
+{
+  "info": {
+    "name": "CoinMarketCap ETF Netflow",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get ETF Netflow",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "authority",
+            "value": "api.coinmarketcap.com"
+          },
+          {
+            "key": "accept",
+            "value": "application/json, text/plain, */*"
+          },
+          {
+            "key": "cache-control",
+            "value": "no-cache"
+          },
+          {
+            "key": "origin",
+            "value": "https://coinmarketcap.com"
+          }
+        ],
+        "url": {
+          "raw": "https://api.coinmarketcap.com/data-api/v3/etf/detail/netflow?category=btc&range=30d",
+          "protocol": "https",
+          "host": [
+            "api",
+            "coinmarketcap",
+            "com"
+          ],
+          "path": [
+            "data-api",
+            "v3",
+            "etf",
+            "detail",
+            "netflow"
+          ],
+          "query": [
+            {
+              "key": "category",
+              "value": "btc"
+            },
+            {
+              "key": "range",
+              "value": "30d"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
