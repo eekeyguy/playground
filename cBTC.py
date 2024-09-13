@@ -5,7 +5,7 @@ import csv
 from datetime import datetime
 
 def fetch_coingecko_data():
-    url = "https://pro-api.coingecko.com/api/v3/onchain/networks/base/tokens/0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf/pools"
+    url = "https://pro-api.coingecko.com/api/v3/onchain/networks/eth/tokens/0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf/pools"
     headers = {
         'accept': 'application/json',
         'x-cg-pro-api-key': 'CG-FNwTw8odvtUP3TViffDhsFfB'
