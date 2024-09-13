@@ -19,9 +19,19 @@ def extract_pool_data(json_data):
     
     for pool in json_data['data']:
         attributes = pool['attributes']
+        relationships = pool['relationships']
+        
+        # Extract address from id
+        address = pool['id'].split('_')[1] if '_' in pool['id'] else pool['id']
+        
+        # Extract id from dex
+        dex_id = relationships['dex']['data']['id'] if 'dex' in relationships else None
+
         extracted_data.append({
             'date': current_date,
             'name': attributes['name'],
+            'address': address,
+            'dex_id': dex_id,
             'token_price_usd': attributes['token_price_usd'],
             'reserve_in_usd': attributes['reserve_in_usd'],
             'h24_buys': attributes['transactions']['h24']['buys'],
@@ -33,7 +43,7 @@ def extract_pool_data(json_data):
 
 def convert_to_csv(extracted_data):
     csv_file = StringIO()
-    fieldnames = ['date', 'name', 'token_price_usd', 'reserve_in_usd', 'h24_buys', 'h24_sells', 'volume_usd_h24']
+    fieldnames = ['date', 'name', 'address', 'dex_id', 'token_price_usd', 'reserve_in_usd', 'h24_buys', 'h24_sells', 'volume_usd_h24']
     csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
     csv_writer.writeheader()
     csv_writer.writerows(extracted_data)
@@ -57,7 +67,7 @@ def upload_to_dune(csv_data):
     print(response.text)
 
 def main():
-    # Fetch data from CoinGecko
+    # Fetch data from CoinGecko API
     json_data = fetch_coingecko_data()
     
     # Extract required pool data
