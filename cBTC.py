@@ -1,8 +1,17 @@
+import requests
 import json
 from io import StringIO
 import csv
 from datetime import datetime
-import requests
+
+def fetch_coingecko_data():
+    url = "https://pro-api.coingecko.com/api/v3/onchain/networks/base/tokens/0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf/pools"
+    headers = {
+        'accept': 'application/json',
+        'x-cg-pro-api-key': 'CG-FNwTw8odvtUP3TViffDhsFfB'
+    }
+    response = requests.get(url, headers=headers)
+    return response.json()
 
 def extract_pool_data(json_data):
     extracted_data = []
@@ -58,9 +67,8 @@ def upload_to_dune(csv_data):
     print(response.text)
 
 def main():
-    # Load JSON data from the provided content
-    with open('paste.txt', 'r') as file:
-        json_data = json.load(file)
+    # Fetch data from CoinGecko API
+    json_data = fetch_coingecko_data()
     
     # Extract required pool data
     extracted_data = extract_pool_data(json_data)
