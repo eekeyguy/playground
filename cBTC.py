@@ -45,8 +45,8 @@ def upload_to_dune(csv_data):
     dune_upload_url = "https://api.dune.com/api/v1/table/upload/csv"
     payload = json.dumps({
         "data": csv_data,
-        "description": "CoinGecko cbBTC Pool Data",
-        "table_name": "coingecko_cbbtc_pool_data",
+        "description": "cbBTC Pool Data",
+        "table_name": "cbbtc_pool_data",
         "is_private": False
     })
     headers = {
