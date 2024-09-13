@@ -22,10 +22,4 @@ jobs:
           pip install aiohttp --only-binary :all:
       
       - name: Run cBTC.py
-        run: python cBTC.py    
-      
-      - name: Run RealT.py
-        run: python RealT.py  
-      
-      - name: Run graphs.py
-        run: python graph.py
+        run: python cBTC.py
