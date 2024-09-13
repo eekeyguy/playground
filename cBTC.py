@@ -1,17 +1,8 @@
-import requests
 import json
 from io import StringIO
 import csv
 from datetime import datetime
-
-def fetch_coingecko_data():
-    url = "https://pro-api.coingecko.com/api/v3/onchain/networks/eth/tokens/0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf/pools"
-    headers = {
-        'accept': 'application/json',
-        'x-cg-pro-api-key': 'CG-FNwTw8odvtUP3TViffDhsFfB'
-    }
-    response = requests.get(url, headers=headers)
-    return response.json()
+import requests
 
 def extract_pool_data(json_data):
     extracted_data = []
@@ -19,9 +10,19 @@ def extract_pool_data(json_data):
     
     for pool in json_data['data']:
         attributes = pool['attributes']
+        relationships = pool['relationships']
+        
+        # Extract address from id
+        address = pool['id'].split('_')[1] if '_' in pool['id'] else pool['id']
+        
+        # Extract id from dex
+        dex_id = relationships['dex']['data']['id'] if 'dex' in relationships else None
+
         extracted_data.append({
             'date': current_date,
             'name': attributes['name'],
+            'address': address,
+            'dex_id': dex_id,
             'token_price_usd': attributes['token_price_usd'],
             'reserve_in_usd': attributes['reserve_in_usd'],
             'h24_buys': attributes['transactions']['h24']['buys'],
@@ -33,7 +34,7 @@ def extract_pool_data(json_data):
 
 def convert_to_csv(extracted_data):
     csv_file = StringIO()
-    fieldnames = ['date', 'name', 'token_price_usd', 'reserve_in_usd', 'h24_buys', 'h24_sells', 'volume_usd_h24']
+    fieldnames = ['date', 'name', 'address', 'dex_id', 'token_price_usd', 'reserve_in_usd', 'h24_buys', 'h24_sells', 'volume_usd_h24']
     csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
     csv_writer.writeheader()
     csv_writer.writerows(extracted_data)
@@ -57,8 +58,9 @@ def upload_to_dune(csv_data):
     print(response.text)
 
 def main():
-    # Fetch data from CoinGecko
-    json_data = fetch_coingecko_data()
+    # Load JSON data from the provided content
+    with open('paste.txt', 'r') as file:
+        json_data = json.load(file)
     
     # Extract required pool data
     extracted_data = extract_pool_data(json_data)
