@@ -23,3 +23,5 @@ jobs:
         run: python cBTC.py
       - name: Run cBTC_base.py
         run: python cBTC_base.py
+      - name: Run cbBTC.py
+        run: python cbBTC.py  
